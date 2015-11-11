@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>課題</title>
+
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+
+</head>
+<body>
+<style>
+    #gmap {
+	width: 800px;
+	height: 500px;
+}</style>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    //ローカルストレージ
+    var get_value1 = localStorage.getItem( "num1" );
+    var get_value2 = localStorage.getItem( "num2" );
+    
+    if(get_value1 != null && get_value2 != null){
+            map = new google.maps.Map(
+		      document.getElementById("gmap"),{
+			 zoom : 15,
+			 center : new google.maps.LatLng(get_value1,get_value2),
+			 mapTypeId : google.maps.MapTypeId.ROADMAP
+		      });
+	
+	// マーカーを表示
+	           marker = new google.maps.Marker({
+		      position: new google.maps.LatLng(get_value1,get_value2),
+		      map: map
+	       });
+    }
+
+    
+    $("#btn").on("click", function () {
+        var val1 = parseInt($("#latitude").val(), 10 );
+        var val2 = parseInt($("#longitude").val(), 10 );
+        
+        localStorage.setItem( "num1", val1 );
+        localStorage.setItem( "num2", val2 );
+        
+    // 地図を表示
+	map = new google.maps.Map(
+		document.getElementById("gmap"),{
+			zoom : 15,
+			center : new google.maps.LatLng(val1,val2),
+			mapTypeId : google.maps.MapTypeId.ROADMAP
+		}
+	);
+	// マーカーを表示
+	marker = new google.maps.Marker({
+		position: new google.maps.LatLng(val1,val2),
+		map: map
+	});
+    });
+});
+</script>
+
+
+	<header>
+	<h1>お気に入りの場所を紹介</h1>
+	緯度：<input id="latitude"  size="20" type="text" name="" />
+	経度：<input id="longitude"  size="20" type="text" name="" />
+	<input id="btn" type="button" value="登録">
+	</header>
+	
+	<main>
+	    
+	    <div id="gmap"></div>
+	</main>
+            
+	
+	<footer></footer>
+
+</body>
+
+</html>
